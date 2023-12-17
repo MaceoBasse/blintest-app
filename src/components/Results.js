@@ -12,24 +12,30 @@ function Results() {
     }
 
     // Calcul du score
-    const score = userAnswers.reduce((score, answer) => {
+    const score = userAnswers.reduce((totalScore, answer) => {
+        let tempScore = totalScore;
         if (answer.answer.toLowerCase() === answer.correctAnswer.toLowerCase()) {
-            return score + 1;
+            tempScore += 1;
         }
-        return score;
+        if (answer.userAuthor.toLowerCase() === answer.correctAuthor.toLowerCase()) {
+            tempScore += 1;
+        }
+        return tempScore;
     }, 0);
 
     // Affichage du score et des réponses
     return (
         <div>
             <h1>Résultats du BlindTest</h1>
-            <p>Votre score est de {score} sur {userAnswers.length}.</p>
+            <p>Votre score est de {score} sur {userAnswers.length * 2}</p>
             <h2>Vos réponses :</h2>
             {userAnswers.map((answer, index) => (
                 <div key={index}>
                     <p>Question: {answer.question}</p>
-                    <p>Votre réponse: {answer.answer}</p>
+                    <p>Votre réponse pour le nom de la musique: {answer.answer}</p>
                     <p>Réponse correcte: {answer.correctAnswer}</p>
+                    <p>Votre réponse pour le nom de l'auteur: {answer.userAuthor}</p>
+                    <p>Réponse correcte: {answer.correctAuthor}</p>
                 </div>
             ))}
             <button onClick={() => navigate('/')}>Retour à l'accueil</button>

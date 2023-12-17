@@ -16,6 +16,7 @@ const BlindTest = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [userAnswer, setUserAnswer] = useState('');
     const [userAnswers, setUserAnswers] = useState([]);
+    const [userAuthor, setUserAuthor] = useState('');
     const audioRef = useRef();
     const location = useLocation();
     const musicTracks = location.state.playlist;
@@ -36,8 +37,10 @@ const BlindTest = () => {
             {
                 question: currentQuestion,
                 answer: userAnswer,
+                userAuthor: userAuthor,
                 musicId: shuffledMusicTracks[currentQuestion].id,
                 correctAnswer: shuffledMusicTracks[currentQuestion].title,
+                correctAuthor: shuffledMusicTracks[currentQuestion].author,
             },
         ];
 
@@ -48,6 +51,7 @@ const BlindTest = () => {
         if (currentQuestion < shuffledMusicTracks.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
             setUserAnswer(''); // Réinitialise la réponse utilisateur pour la nouvelle question
+            setUserAuthor('');
         } else {
             // Toutes les questions ont été répondues, redirigez l'utilisateur vers la page des résultats
             console.log("All questions answered. Redirecting to results page.");
@@ -110,12 +114,19 @@ const BlindTest = () => {
                         onPlay={handleAudioPlay} // Gérer la lecture audio lors de l'interaction de l'utilisateur
                     ></audio>
 
-                    <label htmlFor="userAnswer">Votre réponse :</label>
+                    <label htmlFor="userAnswer">Quelle est le titre de cette musique ?</label>
                     <input
                         type="text"
                         id="userAnswer"
                         value={userAnswer}
                         onChange={(e) => setUserAnswer(e.target.value)}
+                    />
+                    <label htmlFor="userAuthor">Quelle est l'auteur de cette musique ?</label>
+                    <input
+                        type="text"
+                        id="userAuthor"
+                        value={userAuthor}
+                        onChange={(e) => setUserAuthor(e.target.value)}
                     />
                     <button onClick={handleAnswer}>Valider</button>
                 </div>
