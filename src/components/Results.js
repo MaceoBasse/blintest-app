@@ -14,7 +14,7 @@ function Results() {
     // Calcul du score
     const score = userAnswers.reduce((totalScore, answer) => {
         let tempScore = totalScore;
-        if (answer.answer.toLowerCase() === answer.correctAnswer.toLowerCase()) {
+        if (answer.userTitle.toLowerCase() === answer.correctAnswer.toLowerCase()) {
             tempScore += 1;
         }
         if (answer.userAuthor.toLowerCase() === answer.correctAuthor.toLowerCase()) {
@@ -32,7 +32,7 @@ function Results() {
             {userAnswers.map((answer, index) => (
                 <div key={index}>
                     <p>Question: {answer.question}</p>
-                    <p>Votre réponse pour le nom de la musique: {answer.answer}</p>
+                    <p>Votre réponse pour le nom de la musique: {answer.userTitle}</p>
                     <p>Réponse correcte: {answer.correctAnswer}</p>
                     <p>Votre réponse pour le nom de l'auteur: {answer.userAuthor}</p>
                     <p>Réponse correcte: {answer.correctAuthor}</p>

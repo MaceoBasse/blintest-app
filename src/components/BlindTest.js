@@ -14,7 +14,7 @@ function shuffle(array) {
 const BlindTest = () => {
     const navigate = useNavigate();
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [userAnswer, setUserAnswer] = useState('');
+    const [userTitle, setUserTitle] = useState('');
     const [userAnswers, setUserAnswers] = useState([]);
     const [userAuthor, setUserAuthor] = useState('');
     const audioRef = useRef();
@@ -36,7 +36,7 @@ const BlindTest = () => {
             ...userAnswers,
             {
                 question: currentQuestion,
-                answer: userAnswer,
+                answer: userTitle,
                 userAuthor: userAuthor,
                 musicId: shuffledMusicTracks[currentQuestion].id,
                 correctAnswer: shuffledMusicTracks[currentQuestion].title,
@@ -50,7 +50,7 @@ const BlindTest = () => {
         // Passez à la question suivante
         if (currentQuestion < shuffledMusicTracks.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
-            setUserAnswer(''); // Réinitialise la réponse utilisateur pour la nouvelle question
+            setUserTitle('');
             setUserAuthor('');
         } else {
             // Toutes les questions ont été répondues, redirigez l'utilisateur vers la page des résultats
@@ -118,8 +118,8 @@ const BlindTest = () => {
                     <input
                         type="text"
                         id="userAnswer"
-                        value={userAnswer}
-                        onChange={(e) => setUserAnswer(e.target.value)}
+                        value={userTitle}
+                        onChange={(e) => setUserTitle(e.target.value)}
                     />
                     <label htmlFor="userAuthor">Quelle est l'auteur de cette musique ?</label>
                     <input
