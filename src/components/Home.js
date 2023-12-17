@@ -1,18 +1,19 @@
 // Home.js
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { playlist1, playlist2 } from '../musicTracks';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
+  const navigate = useNavigate();
+  const handlePlaylistClick = (playlist) => {
+    navigate('/BlindTest', { state: { playlist: playlist } });
+  };
   return (
     <div>
       <h1>BlindTest</h1>
       <p>Bienvenue sur notre application BlindTest!</p>
-      <p>
-        Commencez le test dès maintenant en cliquant sur le bouton ci-dessous.
-      </p>
-      <Link to="/blindtest">
-        <button>Commencer le test</button>
-      </Link>
+      <h1>Choisissez une playlist</h1>
+      <button onClick={() => handlePlaylistClick(playlist1)}>Playlist 1</button>
+      <button onClick={() => handlePlaylistClick(playlist2)}>Playlist 2</button>
     </div>
   );
 };

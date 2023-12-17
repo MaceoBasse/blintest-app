@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { musicTracks } from '../musicTracks';
-
+import { useLocation } from 'react-router-dom';
 // Fonction pour mélanger un tableau
 function shuffle(array) {
     const arr = array.slice();
@@ -18,9 +17,10 @@ const BlindTest = () => {
     const [userAnswer, setUserAnswer] = useState('');
     const [userAnswers, setUserAnswers] = useState([]);
     const audioRef = useRef();
-
+    const location = useLocation();
+    const musicTracks = location.state.playlist;
     // Utilisez useMemo pour calculer la liste mélangée une fois
-    const shuffledMusicTracks = useMemo(() => shuffle(musicTracks), []);
+    const shuffledMusicTracks = useMemo(() => shuffle(musicTracks), [musicTracks]);
 
     useEffect(() => {
         // Load the audio when the component mounts
