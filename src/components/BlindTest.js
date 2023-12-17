@@ -1,6 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { musicTracks } from '../musicTracks';
+
+// Fonction pour mélanger un tableau
+function shuffle(array) {
+    const arr = array.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
 const BlindTest = () => {
     const navigate = useNavigate();
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -8,18 +19,8 @@ const BlindTest = () => {
     const [userAnswers, setUserAnswers] = useState([]);
     const audioRef = useRef();
 
-    // const musicTracks = useMemo(() => [
-    //     {
-    //         id: 1,
-    //         title: "Shape of You",
-    //         source: "/music/Ed Sheeran - Shape of You.mp3",
-    //     },
-    //     {
-    //         id: 2,
-    //         title: "Despacito",
-    //         source: "/music/Luis Fonsi - Despacito ft. Daddy Yankee.mp3",
-    //     }
-    // ], []);
+    // Utilisez useMemo pour calculer la liste mélangée une fois
+    const shuffledMusicTracks = useMemo(() => shuffle(musicTracks), []);
 
     useEffect(() => {
         // Load the audio when the component mounts
@@ -35,8 +36,8 @@ const BlindTest = () => {
             {
                 question: currentQuestion,
                 answer: userAnswer,
-                musicId: musicTracks[currentQuestion].id,
-                correctAnswer: musicTracks[currentQuestion].title,
+                musicId: shuffledMusicTracks[currentQuestion].id,
+                correctAnswer: shuffledMusicTracks[currentQuestion].title,
             },
         ];
 
@@ -44,7 +45,7 @@ const BlindTest = () => {
         setUserAnswers(newAnswers);
 
         // Passez à la question suivante
-        if (currentQuestion < musicTracks.length - 1) {
+        if (currentQuestion < shuffledMusicTracks.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
             setUserAnswer(''); // Réinitialise la réponse utilisateur pour la nouvelle question
         } else {
@@ -64,23 +65,39 @@ const BlindTest = () => {
     };
 
     useEffect(() => {
-        if (audioRef.current) {
-            // Imprimez les informations sur la piste musicale actuelle
-            console.log("Current Music Track:", {
-                id: musicTracks[currentQuestion].id,
-                title: musicTracks[currentQuestion].title,
-                source: musicTracks[currentQuestion].source,
-            });
-            // Mettez à jour la source de l'audio et jouez l'audio
-            // audioRef.current.src = musicTracks[currentQuestion].source;
-            // audioRef.current.play();
+        const handleCanPlayThrough = () => {
+            // Play the audio once it's ready
+            if (audioRef.current) {
+                audioRef.current.play().catch(error => {
+                    console.error("Error playing audio:", error);
+                });
+            }
+        };
+
+        // Copy audioRef.current to a variable
+        const currentAudioRef = audioRef.current;
+
+        if (currentAudioRef) {
+            // Set the new source
+            currentAudioRef.src = shuffledMusicTracks[currentQuestion].source;
+
+            // Add an event listener for the canplaythrough event
+            currentAudioRef.addEventListener('canplaythrough', handleCanPlayThrough, { once: true });
         }
-    }, [currentQuestion]);
+
+        return () => {
+            // Remove the event listener when the component unmounts or the source changes
+            if (currentAudioRef) {
+                currentAudioRef.removeEventListener('canplaythrough', handleCanPlayThrough);
+            }
+        };
+    }, [currentQuestion, shuffledMusicTracks]);
+
 
     return (
         <div>
             <h1>BlindTest - Devinez le titre de la musique</h1>
-            {currentQuestion < musicTracks.length && (
+            {currentQuestion < shuffledMusicTracks.length && (
                 <div>
                     <h2>Question {currentQuestion + 1}</h2>
                     <p>Écoutez l'extrait musical :</p>
@@ -89,7 +106,7 @@ const BlindTest = () => {
                         controls
                         autoPlay
                         ref={audioRef}
-                        src={musicTracks[currentQuestion].source}
+                        src={shuffledMusicTracks[currentQuestion].source}
                         onPlay={handleAudioPlay} // Gérer la lecture audio lors de l'interaction de l'utilisateur
                     ></audio>
 
