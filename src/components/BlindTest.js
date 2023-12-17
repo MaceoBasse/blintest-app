@@ -36,7 +36,7 @@ const BlindTest = () => {
             ...userAnswers,
             {
                 question: currentQuestion,
-                answer: userTitle,
+                userTitle: userTitle,
                 userAuthor: userAuthor,
                 musicId: shuffledMusicTracks[currentQuestion].id,
                 correctAnswer: shuffledMusicTracks[currentQuestion].title,
