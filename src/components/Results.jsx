@@ -1,6 +1,7 @@
 // Results.js
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import levenshtein from 'fast-levenshtein';
 
 function Results() {
   const location = useLocation();
@@ -20,11 +21,19 @@ function Results() {
   // Calcul du score
   const score = userAnswers.reduce((totalScore, answer) => {
     let tempScore = totalScore;
-    if (answer.userTitle.toLowerCase() === answer.correctAnswer.toLowerCase()) {
+    if (
+      levenshtein.get(
+        answer.userTitle.toLowerCase(),
+        answer.correctAnswer.toLowerCase(),
+      ) <= 2
+    ) {
       tempScore += 1;
     }
     if (
-      answer.userAuthor.toLowerCase() === answer.correctAuthor.toLowerCase()
+      levenshtein.get(
+        answer.userAuthor.toLowerCase(),
+        answer.correctAuthor.toLowerCase(),
+      ) <= 2
     ) {
       tempScore += 1;
     }
