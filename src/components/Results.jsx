@@ -1,6 +1,7 @@
 // Results.js
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import levenshtein from 'fast-levenshtein';
 
 function Results() {
