@@ -22,7 +22,10 @@ function BlindTest() {
   const location = useLocation();
   const musicTracks = location.state.playlist;
   // Utilisez useMemo pour calculer la liste mélangée une fois
-  const shuffledMusicTracks = useMemo(() => (musicTracks ? shuffle(musicTracks) : []), [musicTracks]);
+  const shuffledMusicTracks = useMemo(
+    () => (musicTracks ? shuffle(musicTracks) : []),
+    [musicTracks],
+  );
 
   useEffect(() => {
     // Load the audio when the component mounts
@@ -89,13 +92,18 @@ function BlindTest() {
       currentAudioRef.src = shuffledMusicTracks[currentQuestion].source;
 
       // Add an event listener for the canplaythrough event
-      currentAudioRef.addEventListener('canplaythrough', handleCanPlayThrough, { once: true });
+      currentAudioRef.addEventListener('canplaythrough', handleCanPlayThrough, {
+        once: true,
+      });
     }
 
     return () => {
       // Remove the event listener when the component unmounts or the source changes
       if (currentAudioRef) {
-        currentAudioRef.removeEventListener('canplaythrough', handleCanPlayThrough);
+        currentAudioRef.removeEventListener(
+          'canplaythrough',
+          handleCanPlayThrough,
+        );
       }
     };
   }, [currentQuestion, shuffledMusicTracks]);
@@ -107,9 +115,10 @@ function BlindTest() {
           {/* Ajoutez ici le lecteur audio avec la source de l'extrait musical */}
           <header className="bg-gray-50">
             <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
-
               <div className="mt-8">
-                <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">BlindTest - Devinez le titre de la musique!</h1>
+                <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+                  BlindTest - Devinez le titre de la musique!
+                </h1>
 
                 <p className="mt-1.5 text-sm text-gray-500">
                   Question
@@ -119,7 +128,6 @@ function BlindTest() {
                   🚀
                 </p>
                 <p>Écoutez l&apos;extrait musical :</p>
-
               </div>
             </div>
           </header>
@@ -129,9 +137,15 @@ function BlindTest() {
               controls
               autoPlay
               ref={audioRef}
-              src={shuffledMusicTracks[currentQuestion].source}
               onPlay={handleAudioPlay}
-            />
+            >
+
+              <source
+                src={shuffledMusicTracks[currentQuestion].source}
+                type="audio/mpeg"
+              />
+              <track kind="captions" />
+            </audio>
           </div>
 
           <label
@@ -146,9 +160,7 @@ function BlindTest() {
               className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 my-2"
               placeholder="Quelle est le titre de cette musique ?"
             />
-            <span
-              className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
-            >
+            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
               Quelle est le titre de cette musique ?
             </span>
           </label>
@@ -165,9 +177,7 @@ function BlindTest() {
               className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 my-2"
               placeholder="Quelle est l'auteur de cette musique ?"
             />
-            <span
-              className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
-            >
+            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
               Quelle est l&apos;auteur de cette musique ?
             </span>
           </label>
