@@ -1,6 +1,6 @@
 // Home.js
 import React from 'react';
-import { playlist1, playlist2 } from '../musicTracks';
+import { popPlaylist, rapPlaylist,electroPlaylist } from '../musicTracks';
 import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const navigate = useNavigate();
@@ -12,8 +12,10 @@ const Home = () => {
       <h1>BlindTest</h1>
       <p>Bienvenue sur notre application BlindTest!</p>
       <h1>Choisissez une playlist</h1>
-      <button onClick={() => handlePlaylistClick(playlist1)}>Playlist 1</button>
-      <button onClick={() => handlePlaylistClick(playlist2)}>Playlist 2</button>
+      <button onClick={() => handlePlaylistClick(popPlaylist)}>Playlist Pop</button>
+      <button onClick={() => handlePlaylistClick(rapPlaylist)}>Playlist Rap</button>
+      <button onClick={() => handlePlaylistClick(electroPlaylist)}>Playlist Electro</button>
+
     </div>
   );
 };
