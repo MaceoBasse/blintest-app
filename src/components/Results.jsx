@@ -80,7 +80,18 @@ function Results() {
                       <dt className="flex flex-col order-last text-lg font-medium text-gray-500 justify-center">
                         <span>Votre réponse pour le nom de la musique:</span>
                         <span className="text-4xl font-extrabold text-blue-600 md:text-5xl">
-                          {answer.userTitle}
+                          {levenshtein.get(
+                            answer.userTitle.toLowerCase(),
+                            answer.correctAnswer.toLowerCase(),
+                          ) <= 2 ? (
+                            <span style={{ color: 'green' }}>
+                              {answer.userTitle}
+                            </span>
+                            ) : (
+                              <span style={{ color: 'red' }}>
+                                {answer.userTitle}
+                              </span>
+                            )}
                         </span>
                       </dt>
                     </div>
@@ -100,7 +111,18 @@ function Results() {
                       <dt className="flex flex-col order-last text-lg font-medium text-gray-500 justify-center">
                         Votre réponse pour le nom de l&apos;auteur :
                         <span className="text-4xl font-extrabold text-blue-600 md:text-5xl">
-                          {answer.userAuthor}
+                          {levenshtein.get(
+                            answer.userAuthor.toLowerCase(),
+                            answer.correctAuthor.toLowerCase(),
+                          ) <= 2 ? (
+                            <span style={{ color: 'green' }}>
+                              {answer.userAuthor}
+                            </span>
+                            ) : (
+                              <span style={{ color: 'red' }}>
+                                {answer.userAuthor}
+                              </span>
+                            )}
                         </span>
                       </dt>
                     </div>
