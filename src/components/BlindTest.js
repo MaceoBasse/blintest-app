@@ -119,14 +119,18 @@ const BlindTest = () => {
                             </div>
                         </div>
                     </header>
-                    <audio
-                        className="w-80 m-8 justify-center"
-                        controls
-                        autoPlay
-                        ref={audioRef}
-                        src={shuffledMusicTracks[currentQuestion].source}
-                        onPlay={handleAudioPlay} // Gérer la lecture audio lors de l'interaction de l'utilisateur
-                    ></audio>
+                    <div className='flex w-full justify-center'>
+                        <audio
+                            className="w-full m-8"
+                            controls
+                            autoPlay
+                            ref={audioRef}
+                            src={shuffledMusicTracks[currentQuestion].source}
+                            onPlay={handleAudioPlay} // Gérer la lecture audio lors de l'interaction de l'utilisateur
+                        >
+                        </audio>
+                    </div>
+
 
                     <label
                         htmlFor="userAnswer"
