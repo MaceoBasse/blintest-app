@@ -8,7 +8,7 @@ function Results() {
   const location = useLocation();
   const { userAnswers } = location.state;
   const navigate = useNavigate();
-
+  // console.log(userAnswers);
   // Si aucune réponse n'a été enregistrée, affichez un message d'erreur
   if (!userAnswers || !userAnswers.length) {
     return (
@@ -76,27 +76,30 @@ function Results() {
                 </div>
                 <div className="mt-8 sm:mt-12">
                   <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
+                    <div
+                      key={answer.id}
+                      className={`flex flex-col rounded-lg border px-4 py-8 text-center ${
+                        levenshtein.get(
+                          answer.userTitle.toLowerCase(),
+                          answer.correctAnswer.toLowerCase(),
+                        ) <= 2
+                        && levenshtein.get(
+                          answer.userAuthor.toLowerCase(),
+                          answer.correctAuthor.toLowerCase(),
+                        ) <= 2
+                          ? 'bg-green-200 '
+                          : 'bg-red-200 '
+                      }`}
+                    >
                       <dt className="flex flex-col order-last text-lg font-medium text-gray-500 justify-center">
                         <span>Votre réponse pour le nom de la musique:</span>
                         <span className="text-4xl font-extrabold text-blue-600 md:text-5xl">
-                          {levenshtein.get(
-                            answer.userTitle.toLowerCase(),
-                            answer.correctAnswer.toLowerCase(),
-                          ) <= 2 ? (
-                            <span style={{ color: 'green' }}>
-                              {answer.userTitle}
-                            </span>
-                            ) : (
-                              <span style={{ color: 'red' }}>
-                                {answer.userTitle}
-                              </span>
-                            )}
+                          {answer.userTitle}
                         </span>
                       </dt>
                     </div>
-                    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-                      <dt className="flex flex-col order-last text-lg font-medium text-gray-500 justify-center">
+                    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center bg-gray-200">
+                      <dt className="flex flex-col order-last text-lg font-medium text-gray-500 justify-center ">
                         Réponse correcte :
                         <span className="text-4xl font-extrabold text-blue-600 md:text-5xl">
                           {answer.correctAnswer}
@@ -107,26 +110,29 @@ function Results() {
                 </div>
                 <div className="mt-8 sm:mt-12">
                   <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-                      <dt className="flex flex-col order-last text-lg font-medium text-gray-500 justify-center">
+                    <div
+                      key={answer.id}
+                      className={`flex flex-col rounded-lg border px-4 py-8 text-center  ${
+                        levenshtein.get(
+                          answer.userTitle.toLowerCase(),
+                          answer.correctAnswer.toLowerCase(),
+                        ) <= 2
+                        && levenshtein.get(
+                          answer.userAuthor.toLowerCase(),
+                          answer.correctAuthor.toLowerCase(),
+                        ) <= 2
+                          ? 'bg-green-200 '
+                          : 'bg-red-200 '
+                      }`}
+                    >
+                      <dt className="flex flex-col order-last text-lg font-medium text-gray-500 justify-center ">
                         Votre réponse pour le nom de l&apos;auteur :
                         <span className="text-4xl font-extrabold text-blue-600 md:text-5xl">
-                          {levenshtein.get(
-                            answer.userAuthor.toLowerCase(),
-                            answer.correctAuthor.toLowerCase(),
-                          ) <= 2 ? (
-                            <span style={{ color: 'green' }}>
-                              {answer.userAuthor}
-                            </span>
-                            ) : (
-                              <span style={{ color: 'red' }}>
-                                {answer.userAuthor}
-                              </span>
-                            )}
+                          {answer.userAuthor}
                         </span>
                       </dt>
                     </div>
-                    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
+                    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center bg-gray-200">
                       <dt className="flex flex-col order-last text-lg font-medium text-gray-500 justify-center">
                         Réponse correcte :
                         <span className="text-4xl font-extrabold text-blue-600 md:text-5xl">
