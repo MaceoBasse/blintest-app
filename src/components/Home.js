@@ -2,12 +2,17 @@
 import React from 'react';
 import { useState } from 'react'
 import { playlist1, playlist2 } from '../musicTracks';
+import { popPlaylist, rapPlaylist,electroPlaylist } from '../musicTracks';
 import { useNavigate } from 'react-router-dom';
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const Home = () => {
-
+  const playlists = [
+    { name: 'Pop', playlist: popPlaylist },
+    { name: 'Rap', playlist: rapPlaylist },
+    { name: 'Electro', playlist: electroPlaylist },
+  ];
   const navigate = useNavigate();
   const handlePlaylistClick = (playlist) => {
     navigate('/BlindTest', { state: { playlist: playlist } });
@@ -88,13 +93,10 @@ const Home = () => {
             }}
           />
         </div>
-      <button onClick={() => handlePlaylistClick(playlist1)}>Playlist 1</button>
-
+        <button key={playlist.name} onClick={() => handlePlaylistClick(playlist.playlist)}>
+          Playlist {playlist.name}
+        </button>
       </div>
-    </div>
-      <button onClick={() => handlePlaylistClick(playlist1)}>Playlist 1</button>
-      <button onClick={() => handlePlaylistClick(playlist2)}>Playlist 2</button>
-    </>
   );
 };
 
