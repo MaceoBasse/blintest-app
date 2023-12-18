@@ -137,7 +137,7 @@ const BlindTest = () => {
                             id="userAnswer"
                             value={userTitle}
                             onChange={(e) => setUserTitle(e.target.value)}
-                            class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+                            class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 my-2"
                             placeholder="Quelle est le titre de cette musique ?"
                         />
                         <span
@@ -155,7 +155,7 @@ const BlindTest = () => {
                             id="userAuthor"
                             value={userAuthor}
                             onChange={(e) => setUserAuthor(e.target.value)}
-                            class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+                            class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 my-2"
                             placeholder="Quelle est l'auteur de cette musique ?"
                         />
                         <span
