@@ -83,10 +83,6 @@ function Results() {
                           answer.userTitle.toLowerCase(),
                           answer.correctAnswer.toLowerCase(),
                         ) <= 2
-                        && levenshtein.get(
-                          answer.userAuthor.toLowerCase(),
-                          answer.correctAuthor.toLowerCase(),
-                        ) <= 2
                           ? 'bg-green-200 '
                           : 'bg-red-200 '
                       }`}
@@ -114,10 +110,6 @@ function Results() {
                       key={answer.id}
                       className={`flex flex-col rounded-lg border px-4 py-8 text-center  ${
                         levenshtein.get(
-                          answer.userTitle.toLowerCase(),
-                          answer.correctAnswer.toLowerCase(),
-                        ) <= 2
-                        && levenshtein.get(
                           answer.userAuthor.toLowerCase(),
                           answer.correctAuthor.toLowerCase(),
                         ) <= 2
