@@ -100,35 +100,74 @@ const BlindTest = () => {
 
     return (
         <div>
-            <h1>BlindTest - Devinez le titre de la musique</h1>
             {currentQuestion < shuffledMusicTracks.length && (
-                <div>
-                    <h2>Question {currentQuestion + 1}</h2>
-                    <p>Écoutez l'extrait musical :</p>
+                <div className='flex flex-col'>
                     {/* Ajoutez ici le lecteur audio avec la source de l'extrait musical */}
+                    <header className="bg-gray-50">
+                        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+
+                            <div className="mt-8">
+                            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">BlindTest - Devinez le titre de la musique!</h1>
+
+                            <p className="mt-1.5 text-sm text-gray-500">
+                            Question {currentQuestion + 1} 🚀
+                            </p>
+                    <p>Écoutez l'extrait musical :</p>
+
+                            </div>
+                        </div>
+                        </header>
                     <audio
+                        className="w-80 m-8 justify-center"
                         controls
                         autoPlay
                         ref={audioRef}
                         src={shuffledMusicTracks[currentQuestion].source}
                         onPlay={handleAudioPlay} // Gérer la lecture audio lors de l'interaction de l'utilisateur
                     ></audio>
+                    
+                    <label
+                        htmlFor="userAnswer"
+                        class="m-8 relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+                        >
+                        <input
+                            type="text"
+                            id="userAnswer"
+                            value={userTitle}
+                            onChange={(e) => setUserTitle(e.target.value)}
+                            class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+                            placeholder="Quelle est le titre de cette musique ?"
+                        />  
+                        <span
+                            class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+                            Quelle est le titre de cette musique ?
+                        </span> 
+                    </label>      
 
-                    <label htmlFor="userAnswer">Quelle est le titre de cette musique ?</label>
-                    <input
-                        type="text"
-                        id="userAnswer"
-                        value={userTitle}
-                        onChange={(e) => setUserTitle(e.target.value)}
-                    />
-                    <label htmlFor="userAuthor">Quelle est l'auteur de cette musique ?</label>
-                    <input
-                        type="text"
-                        id="userAuthor"
-                        value={userAuthor}
-                        onChange={(e) => setUserAuthor(e.target.value)}
-                    />
-                    <button onClick={handleAnswer}>Valider</button>
+                    <label
+                        htmlFor="userAuthor"
+                        class="m-8 relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+                        >
+                        <input
+                            type="text"
+                            id="userAuthor"
+                            value={userAuthor}
+                            onChange={(e) => setUserAuthor(e.target.value)}
+                            class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+                            placeholder="Quelle est l'auteur de cette musique ?"
+                        />  
+                        <span
+                            class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+                            Quelle est l'auteur de cette musique ?
+                        </span> 
+                    </label>  
+                    <div className='w-full flex justify-center'>
+                        <button
+                            className="w-40 inline-block rounded bg-indigo-600 px-8 py-3 text-sm font-medium text-white transition hover:rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-500"
+                            onClick={handleAnswer}>
+                            Valider
+                        </button>
+                    </div>
                 </div>
             )}
         </div>
