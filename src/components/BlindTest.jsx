@@ -2,7 +2,7 @@ import React, {
   useState, useEffect, useRef, useMemo,
 } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// Fonction pour mélanger un tableau
+
 function shuffle(array) {
   const arr = array.slice();
   for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -21,21 +21,25 @@ function BlindTest() {
   const audioRef = useRef();
   const location = useLocation();
   const musicTracks = location.state.playlist;
-  // Utilisez useMemo pour calculer la liste mélangée une fois
+  const [audioStartTime, setAudioStartTime] = useState(0);
+
   const shuffledMusicTracks = useMemo(
     () => (musicTracks ? shuffle(musicTracks) : []),
     [musicTracks],
   );
 
+  const getRandomStartTime = () => {
+    const maxStartTime = audioRef.current.duration - 30;
+    return Math.random() * maxStartTime;
+  };
+
   useEffect(() => {
-    // Load the audio when the component mounts
     if (audioRef.current) {
       audioRef.current.load();
     }
   }, []);
 
   const handleAnswer = async () => {
-    // Créez une nouvelle variable pour stocker les nouvelles réponses
     const newAnswers = [
       ...userAnswers,
       {
@@ -48,26 +52,22 @@ function BlindTest() {
       },
     ];
 
-    // Mettez à jour l'état avec les nouvelles réponses
     setUserAnswers(newAnswers);
 
-    // Passez à la question suivante
     if (currentQuestion < shuffledMusicTracks.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setUserTitle('');
       setUserAuthor('');
+      setAudioStartTime(0);
     } else {
-      // Toutes les questions ont été répondues, redirigez l'utilisateur vers la page des résultats
-      // console.log('All questions answered. Redirecting to results page.');
-      // console.log('User answers:', newAnswers);
       navigate('/results', { state: { userAnswers: newAnswers } });
     }
   };
 
   const handleAudioPlay = () => {
     if (audioRef.current) {
+      audioRef.current.currentTime = audioStartTime;
       audioRef.current.play().catch((error) => {
-        // eslint-disable-next-line no-console
         console.error('Error playing audio:', error);
       });
     }
@@ -75,30 +75,26 @@ function BlindTest() {
 
   useEffect(() => {
     const handleCanPlayThrough = () => {
-      // Play the audio once it's ready
       if (audioRef.current) {
+        const startTime = getRandomStartTime();
+        setAudioStartTime(startTime);
+        audioRef.current.currentTime = startTime;
         audioRef.current.play().catch((error) => {
-          // eslint-disable-next-line no-console
           console.error('Error playing audio:', error);
         });
       }
     };
 
-    // Copy audioRef.current to a variable
     const currentAudioRef = audioRef.current;
 
     if (currentAudioRef) {
-      // Set the new source
       currentAudioRef.src = shuffledMusicTracks[currentQuestion].source;
-
-      // Add an event listener for the canplaythrough event
       currentAudioRef.addEventListener('canplaythrough', handleCanPlayThrough, {
         once: true,
       });
     }
 
     return () => {
-      // Remove the event listener when the component unmounts or the source changes
       if (currentAudioRef) {
         currentAudioRef.removeEventListener(
           'canplaythrough',
@@ -107,6 +103,25 @@ function BlindTest() {
       }
     };
   }, [currentQuestion, shuffledMusicTracks]);
+
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    const handleTimeUpdate = () => {
+      if (audioRef.current.currentTime >= audioStartTime + 30) {
+        audioRef.current.pause();
+      }
+    };
+
+    const currentAudioRef = audioRef.current;
+
+    if (currentAudioRef) {
+      currentAudioRef.addEventListener('timeupdate', handleTimeUpdate);
+
+      return () => {
+        currentAudioRef.removeEventListener('timeupdate', handleTimeUpdate);
+      };
+    }
+  }, [audioStartTime]);
 
   return (
     <div>
