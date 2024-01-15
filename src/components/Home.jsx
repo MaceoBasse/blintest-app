@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import { popPlaylist, rapPlaylist, electroPlaylist } from '../musicTracks';
+import randomSVG from '../random-svgrepo-com.svg';
 
 function Home() {
   const playlists = [
@@ -11,9 +12,14 @@ function Home() {
     { name: 'Electro', playlist: electroPlaylist },
   ];
   const navigate = useNavigate();
-  const handlePlaylistClick = (playlist) => {
-    navigate('/BlindTest', { state: { playlist } });
+  const handlePlaylistClick = (playlist, name) => {
+    navigate('/BlindTest', { state: { playlist, name } });
   };
+
+  function randomChoice() {
+    const randomPlaylist = playlists[Math.floor(Math.random() * playlists.length)];
+    navigate('/BlindTest', { state: { playlist: randomPlaylist.playlist, name: randomPlaylist.name } });
+  }
 
   return (
     <div className="bg-white">
@@ -67,7 +73,7 @@ function Home() {
                 <button
                   className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                   key={playlist.name}
-                  onClick={() => handlePlaylistClick(playlist.playlist)}
+                  onClick={() => handlePlaylistClick(playlist.playlist, playlist.name)}
                   type="button" // Ajoutez un attribut de type explicite
                 >
                   Playlist
@@ -75,6 +81,13 @@ function Home() {
                   {playlist.name}
                 </button>
               ))}
+              <button
+                className="inline-block rounded border border-indigo-600 bg-indigo-600 px-2 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                onClick={() => randomChoice()}
+                type="button" // Ajoutez un attribut de type explicite
+              >
+                <img src={randomSVG} alt="choix aléatoire" />
+              </button>
             </div>
           </div>
         </div>
