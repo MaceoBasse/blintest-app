@@ -23,7 +23,6 @@ function BlindTest() {
   const location = useLocation();
   const { name } = location.state;
   const musicTracks = location.state.playlist;
-  console.log(name, 'name');
   const [audioStartTime, setAudioStartTime] = useState(0);
 
   const shuffledMusicTracks = useMemo(
