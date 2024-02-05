@@ -138,7 +138,7 @@ function BlindTest() {
             <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
               <div className="mt-8">
                 <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-                  BlindTest - Devinez le titre de la musique! - Playlist&#160;
+                  SmokeBeats - Devinez le titre de la musique! - Playlist&#160;
                   {name}
                 </h1>
                 <p className="mt-1.5 text-sm text-gray-500">
