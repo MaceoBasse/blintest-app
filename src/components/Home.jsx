@@ -1,7 +1,6 @@
 // Home.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bars3Icon } from '@heroicons/react/24/outline';
 import { popPlaylist, rapPlaylist, electroPlaylist } from '../musicTracks';
 import logoss from '../icons8-music-band-48.png';
 
@@ -12,9 +11,16 @@ function Home() {
     { name: 'Electro', playlist: electroPlaylist },
   ];
   const navigate = useNavigate();
-  const handlePlaylistClick = (playlist) => {
-    navigate('/BlindTest', { state: { playlist } });
+  const handlePlaylistClick = (playlist, name) => {
+    navigate('/BlindTest', { state: { playlist, name } });
   };
+
+  function randomChoice() {
+    const randomPlaylist = playlists[Math.floor(Math.random() * playlists.length)];
+    navigate('/BlindTest', {
+      state: { playlist: randomPlaylist.playlist, name: randomPlaylist.name },
+    });
+  }
 
   return (
     <div className="bg-white">
@@ -29,15 +35,6 @@ function Home() {
               src={logoss}
               alt=""
             />
-          </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
           </div>
         </nav>
       </header>
@@ -68,7 +65,7 @@ function Home() {
                 <button
                   className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                   key={playlist.name}
-                  onClick={() => handlePlaylistClick(playlist.playlist)}
+                  onClick={() => handlePlaylistClick(playlist.playlist, playlist.name)}
                   type="button" // Ajoutez un attribut de type explicite
                 >
                   Playlist
@@ -76,6 +73,23 @@ function Home() {
                   {playlist.name}
                 </button>
               ))}
+              <button
+                className="group inline-block rounded border border-indigo-600 bg-indigo-600 px-2 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                onClick={() => randomChoice()}
+                type="button"
+              >
+                <svg
+                  className="fill-current text-white group-hover:text-indigo-600"
+                  width="16px"
+                  height="16px"
+                  viewBox="0 0 32 32"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>random</title>
+                  <path d="M0 24q0 0.832 0.576 1.44t1.44 0.576h1.984q2.048 0 3.904-0.8t3.168-2.144 2.144-3.2 0.8-3.872q0-2.464 1.728-4.224t4.256-1.76h4v1.984q0 0.672 0.384 1.152t0.864 0.704 1.12 0.128 1.056-0.544l4-4q0.608-0.64 0.576-1.44t-0.576-1.408l-4-4q-0.48-0.448-1.088-0.544t-1.12 0.128-0.864 0.704-0.352 1.12v2.016h-4q-2.016 0-3.872 0.8t-3.2 2.112-2.144 3.2-0.768 3.872q0 2.496-1.76 4.256t-4.256 1.76h-1.984q-0.832 0-1.44 0.576t-0.576 1.408zM0 8.032q0 0.832 0.576 1.408t1.44 0.576h1.984q1.408 0 2.592 0.608t2.080 1.664q0.672-2.048 1.984-3.68-2.912-2.592-6.656-2.592h-1.984q-0.832 0-1.44 0.608t-0.576 1.408zM13.376 23.456q2.848 2.56 6.624 2.56h4v2.016q0 0.64 0.384 1.152t0.864 0.704 1.12 0.096 1.056-0.544l4-4q0.608-0.608 0.576-1.44t-0.576-1.376l-4-4q-0.48-0.48-1.088-0.576t-1.12 0.128-0.864 0.736-0.352 1.12v1.984h-4q-1.376 0-2.592-0.576t-2.048-1.664q-0.704 2.048-1.984 3.68z" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
