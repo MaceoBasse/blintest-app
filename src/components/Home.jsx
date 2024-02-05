@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import { popPlaylist, rapPlaylist, electroPlaylist } from '../musicTracks';
+import logoss from '../icons8-music-band-48.png';
 
 function Home() {
   const playlists = [
@@ -25,7 +26,7 @@ function Home() {
           <div className="flex lg:flex-1">
             <img
               className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              src={logoss}
               alt=""
             />
           </div>
